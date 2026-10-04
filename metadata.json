@@ -1,0 +1,6 @@
+{
+  "name": "MelodyMind – AI Music Generator",
+  "description": "Teach an AI to compose music. Complete end-to-end deep learning pipeline for MIDI music generation using LSTM neural networks.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
