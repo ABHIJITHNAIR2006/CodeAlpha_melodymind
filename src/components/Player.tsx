@@ -12,6 +12,7 @@ import {
   Clock
 } from 'lucide-react';
 import { audioSynth } from '../audio/synth';
+import { api } from '../api';
 
 interface PlayerProps {
   tokens: string[];
@@ -110,17 +111,26 @@ export const Player: React.FC<PlayerProps> = ({
             </span>
           </div>
 
-          {midiDownloadUrl && (
-            <a
-              href={midiDownloadUrl}
-              download
-              className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold shadow-md shadow-purple-600/20 transition-all cursor-pointer"
-              title="Download standard MIDI format (.mid) file"
-            >
-              <Download className="w-3.5 h-3.5" />
-              <span>Download MIDI</span>
-            </a>
-          )}
+          <button
+            onClick={() => {
+              if (midiDownloadUrl) {
+                // Trigger download link or fallback to direct browser byte download
+                const link = document.createElement('a');
+                link.href = midiDownloadUrl;
+                link.download = `melodymind_${title.replace(/[^a-zA-Z0-9]/g, '_')}.mid`;
+                document.body.appendChild(link);
+                link.click();
+                document.body.removeChild(link);
+              } else {
+                api.downloadMidiDirect(title.replace(/[^a-zA-Z0-9]/g, '_'), tokens, tempo, instrument);
+              }
+            }}
+            className="flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-purple-600 hover:bg-purple-500 text-white text-xs font-semibold shadow-md shadow-purple-600/20 transition-all cursor-pointer"
+            title="Download standard MIDI format (.mid) file"
+          >
+            <Download className="w-3.5 h-3.5" />
+            <span>Download MIDI</span>
+          </button>
 
           <button
             onClick={handleCopyShare}

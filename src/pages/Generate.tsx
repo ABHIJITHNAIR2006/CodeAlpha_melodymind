@@ -425,15 +425,16 @@ export const Generate: React.FC = () => {
                       <td className="py-3 px-4 text-slate-300">{item.instrument}</td>
                       <td className="py-3 px-4 font-mono text-slate-400">{item.duration_sec}s</td>
                       <td className="py-3 px-4 text-right" onClick={(e) => e.stopPropagation()}>
-                        <a
-                          href={api.getMidiDownloadUrl(item.id)}
-                          download
-                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium"
+                        <button
+                          onClick={() => {
+                            api.downloadMidiDirect(item.id, item.tokens, item.tempo, item.instrument);
+                          }}
+                          className="inline-flex items-center gap-1 px-2.5 py-1 rounded-lg bg-slate-800 hover:bg-slate-700 text-slate-200 text-xs font-medium cursor-pointer transition-colors"
                           title="Download MIDI file"
                         >
                           <Download className="w-3 h-3" />
                           <span>.MID</span>
-                        </a>
+                        </button>
                       </td>
                     </tr>
                   );

@@ -52,12 +52,12 @@ export function midiNumberToPitchName(pitch: number): string {
   return `${note}${octave}`;
 }
 
-export function encodeTokensToMidiBuffer(
+export function encodeTokensToMidiBytes(
   tokens: string[],
   tempoBpm: number = 120,
   instrumentNumber: number = 0,
   stepOffset: number = 0.5
-): Buffer {
+): Uint8Array {
   const ticksPerQuarter = 480;
   const trackBytes: number[] = [];
 
@@ -163,5 +163,39 @@ export function encodeTokensToMidiBuffer(
     trackBytes.length & 0xff
   ];
 
-  return Buffer.from([...header, ...trackHeader, ...trackBytes]);
+  return new Uint8Array([...header, ...trackHeader, ...trackBytes]);
+}
+
+export function encodeTokensToMidiBuffer(
+  tokens: string[],
+  tempoBpm: number = 120,
+  instrumentNumber: number = 0,
+  stepOffset: number = 0.5
+): Uint8Array {
+  return encodeTokensToMidiBytes(tokens, tempoBpm, instrumentNumber, stepOffset);
+}
+
+/**
+ * Direct browser download of MIDI bytes without requiring backend round-trip
+ */
+export function triggerBrowserMidiDownload(
+  tokens: string[],
+  filename: string = 'melodymind_composition.mid',
+  tempo: number = 120,
+  instrument: string = 'Acoustic Grand Piano'
+) {
+  const instrumentNumber = instrument.toLowerCase().includes('guitar') ? 24 :
+    instrument.toLowerCase().includes('violin') ? 40 :
+    instrument.toLowerCase().includes('flute') ? 73 : 0;
+
+  const bytes = encodeTokensToMidiBytes(tokens, tempo, instrumentNumber, 0.5);
+  const blob = new Blob([bytes.buffer as ArrayBuffer], { type: 'audio/midi' });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+  setTimeout(() => URL.revokeObjectURL(url), 1000);
 }

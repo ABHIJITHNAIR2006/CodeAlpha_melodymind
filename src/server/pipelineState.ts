@@ -80,7 +80,7 @@ export interface GenerationOutput {
   instrument: string;
   duration_sec: number;
   tokens: string[];
-  midiBuffer?: Buffer;
+  midiBuffer?: Uint8Array | Buffer;
   generation_time_s: number;
   variation_label?: string;
 }
@@ -740,7 +740,7 @@ class PipelineStateManager {
     return this.generationHistory.map(({ midiBuffer, ...rest }) => rest as GenerationOutput);
   }
 
-  getMidiBuffer(id: string): Buffer | null {
+  getMidiBuffer(id: string): Uint8Array | Buffer | null {
     const item = this.generationHistory.find(g => g.id === id);
     if (!item) return null;
     if (item.midiBuffer) return item.midiBuffer;

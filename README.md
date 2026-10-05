@@ -175,7 +175,34 @@ To render `.mid` to high-fidelity `.wav` on your local operating system:
 
 ## 🚀 How to Run
 
-### Method 1: All-in-One Full-Stack App (Recommended)
+### ⚡ Deploy to Vercel (1-Click or CLI)
+
+The project includes ready-to-deploy **`vercel.json`** configuration, **Vercel Serverless Functions (`api/index.ts`)**, and zero-latency client fallback:
+
+#### Option A: Deploy with Vercel CLI
+```bash
+# 1. Install or run Vercel CLI
+npx vercel
+
+# 2. Deploy to production
+npx vercel --prod
+```
+
+#### Option B: Deploy via Vercel Web Dashboard (GitHub / GitLab)
+1. Push your repository to GitHub.
+2. Go to [vercel.com](https://vercel.com) and click **"Add New Project"** > **"Import Git Repository"**.
+3. Vercel will automatically detect the settings from `vercel.json`:
+   - **Framework Preset**: `Vite`
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `dist`
+   - **Install Command**: `npm install`
+4. Click **Deploy**. Your app will be live with a free SSL domain (e.g. `https://melodymind.vercel.app`) in ~60 seconds!
+
+---
+
+### Local Execution
+
+#### Method 1: All-in-One Full-Stack App (Recommended)
 This launches the complete web application with all 5 steps interactive on port 3000:
 ```bash
 # Linux / macOS
