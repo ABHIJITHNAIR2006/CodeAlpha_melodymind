@@ -1,5 +1,7 @@
 # MelodyMind – AI Music Generator 🎵🧠
 
+https://melodymind-rust.vercel.app/
+
 > **Teach an AI to compose expressive music.** An end-to-end deep learning system that implements the complete 5-step music generation pipeline using recurrent neural networks (LSTMs) and `music21`.
 
 ---
